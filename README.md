@@ -1,6 +1,6 @@
 # Dev Ops Observability
 
-# LGTM Stack
+## LGTM Stack
 
 - [Loki](https://grafana.com/oss/loki/): for Logs
 - [Grafana](https://grafana.com/oss/grafana/): to centralize, configure and visualize
