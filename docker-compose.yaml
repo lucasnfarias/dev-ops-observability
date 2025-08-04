@@ -8,6 +8,14 @@ services:
       - 7946
       - 9095
 
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    restart: always
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo/tempo.yaml:/etc/tempo.yaml
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -23,3 +31,4 @@ services:
       - GF_SECURITY_ALLOW_EMBEDDING=true
     depends_on:
       - loki
+      - tempo
