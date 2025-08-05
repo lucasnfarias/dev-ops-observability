@@ -13,6 +13,9 @@ services:
     container_name: tempo
     restart: always
     command: ["-config.file=/etc/tempo.yaml"]
+    ports:
+      - 4327:4317
+      - 4328:4318
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
 
