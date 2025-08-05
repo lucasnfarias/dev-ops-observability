@@ -1,8 +1,13 @@
 # Dev Ops Observability
 
+## App
+
+Simple app using [NestJS](https://docs.nestjs.com/) initial template
+
 ## Open Telemetry
 
-https://github.com/open-telemetry/opentelemetry-collector-contrib
+- [Official NodeJS Docs](https://opentelemetry.io/docs/languages/js/getting-started/nodejs/)
+- [Docker image open-telemetry/opentelemetry-collector-contrib Github](https://github.com/open-telemetry/opentelemetry-collector-contrib)
 
 ## LGTM Stack
 
