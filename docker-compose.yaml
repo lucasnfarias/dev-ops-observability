@@ -8,11 +8,22 @@ services:
       - 7946
       - 9095
 
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: always
+    ports:
+      - 9000:9000
+      - 9001:9001
+    command: server ~ --address ':9000' --console-address=':9001'
+    env_file:
+      - .env
+
   tempo:
     image: grafana/tempo:latest
     container_name: tempo
     restart: always
-    command: ["-config.file=/etc/tempo.yaml"]
+    command: [ "-config.file=/etc/tempo.yaml" ]
     expose:
       - 3200
       - 4317
@@ -27,7 +38,7 @@ services:
     ports:
       - 9008:9008
       - 9009:9009
-    command: ["-config.file=/etc/mimir.yaml"]
+    command: [ "-config.file=/etc/mimir.yaml" ]
     volumes:
       - ./config/mimir/mimir.yaml:/etc/mimir.yaml
 
@@ -37,11 +48,7 @@ services:
     restart: always
     ports:
       - 9090:9090
-    command:
-      [
-        "--web.enable-remote-write-receiver",
-        "--config.file=/etc/prometheus/prometheus.yaml",
-      ]
+    command: [ "--web.enable-remote-write-receiver", "--config.file=/etc/prometheus/prometheus.yaml" ]
     volumes:
       - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
 
@@ -53,11 +60,8 @@ services:
       - 3000:3000
     volumes:
       - ./config/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_AUTH_DISABLED_FORM_LOGIN=true
-      - GF_SECURITY_ALLOW_EMBEDDING=true
+    env_file:
+      - .env
     depends_on:
       - loki
       - prometheus
@@ -68,7 +72,7 @@ services:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: otel
     restart: always
-    command: ["--config=/etc/otelcol/config.yaml"]
+    command: [ "--config=/etc/otelcol/config.yaml" ]
     volumes:
       - ./config/otel/otel.yaml:/etc/otelcol/config.yaml
     ports:
@@ -91,4 +95,4 @@ services:
     container_name: promtail
     volumes:
       - /var/log/:/var/log
-    command: ["-config.file=/etc/promtail/config.yml"]
+    command: [ "-config.file=/etc/promtail/config.yml" ]

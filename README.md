@@ -15,3 +15,7 @@ Simple app using [NestJS](https://docs.nestjs.com/) initial template
 - [Grafana](https://grafana.com/oss/grafana/): to centralize, configure and visualize
 - [Tempo](https://grafana.com/oss/tempo/): for Traces
 - [Mimir](https://grafana.com/oss/mimir/): for Metrics
+
+## Minio
+Used to store our logs.
+https://www.min.io/
