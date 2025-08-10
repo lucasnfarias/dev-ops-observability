@@ -12,12 +12,43 @@ services:
     image: minio/minio:latest
     container_name: minio
     restart: always
+    entrypoint:
+      - sh
+      - -euc
+      - |
+        mkdir -p /data/loki-data && \
+        mkdir -p /data/loki-ruler && \
+        minio server /data --console-address ':9001'
     ports:
       - 9000:9000
       - 9001:9001
-    command: server ~ --address ':9000' --console-address=':9001'
+    volumes:
+      - minio-data-volume:/data
+    # command: server ~ --address ':9000' --console-address=':9001'
     env_file:
       - .env
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 3s
+
+  # bucket:
+  #   image: minio/mc:latest
+  #   container_name: bucket
+  #   depends_on:
+  #     - minio
+  #   env_file:
+  #     - .env
+  #   entrypoint: >
+  #     /bin/sh -c "
+  #       /usr/bin/mc alias set minio $MINIO_HOST $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+  #       /usr/bin/mc rm -r --force minio/loki;
+  #       /usr/bin/mc mb minio/loki;
+  #       /usr/bin/mc anonymous set public minio/loki;
+  #       exit 0;
+  #     "
 
   tempo:
     image: grafana/tempo:latest
@@ -96,3 +127,11 @@ services:
     volumes:
       - /var/log/:/var/log
     command: [ "-config.file=/etc/promtail/config.yml" ]
+
+volumes:
+  minio-data-volume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ./data/minio
