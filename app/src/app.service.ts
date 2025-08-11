@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { log } from 'src/infra/logger';
 import { metrics, SERVICE_NAME } from './tracer';
 
 @Injectable()
@@ -7,6 +8,7 @@ export class AppService {
     const metric = metrics.getMeter(SERVICE_NAME)
     const successMetric = metric.createCounter('hello_success');
     successMetric.add(1)
+    log.info('Cheguei aqui!')
 
     return 'Hello World!';
   }
