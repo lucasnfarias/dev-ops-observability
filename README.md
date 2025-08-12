@@ -17,5 +17,12 @@ Simple app using [NestJS](https://docs.nestjs.com/) initial template
 - [Mimir](https://grafana.com/oss/mimir/): for Metrics
 
 ## Minio
+
 Used to store our logs.
 https://www.min.io/
+
+## Troubleshooting
+
+### Error ECCONREFUSED ::1:4318
+
+**Solution:** `export OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4318`

@@ -8,8 +8,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  await app.listen(process.env.PORT ?? 3001).then(() => {
-    log.info('Application 1 is up!');
+  await app.listen(process.env.PORT ?? 3002).then(() => {
+    log.info('Application 2 is up!');
   });
 }
 
