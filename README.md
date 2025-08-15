@@ -21,6 +21,17 @@ Simple app using [NestJS](https://docs.nestjs.com/) initial template
 Used to store our logs.
 https://www.min.io/
 
+## Concepts
+
+### Golden Signals
+
+- Latency: ms
+  - consider async vs. sync and circuit breaker (e.g. istio)
+- Traffic: RPS and RPM
+- Errors
+- Saturation
+  - Lack of resources: CPU, Memory, RAM, ...
+
 ## Troubleshooting
 
 ### Error ECCONREFUSED ::1:4318
