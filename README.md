@@ -1,24 +1,53 @@
 # Dev Ops Observability
 
-## App
+Educational project to learn more about Observability using LGTM Stack.
 
-Simple app using [NestJS](https://docs.nestjs.com/) initial template
+## App & App-2
 
-## Open Telemetry
+Simple apps using [NestJS](https://docs.nestjs.com/) to test custom logs, traces and metrics.
+
+### How to run
+
+```sh
+# create minio folder
+mkdir -p data/minio
+
+# run LGTM stack services
+docker compose up --build -d
+
+# go to applications folders, install deps and run app
+cd app && nvm use && npm i && npm run start:dev
+cd app-2 && nvm use && npm i && npm run start:dev
+
+# try fetching some endpoints to create logs, traces and metrics
+# e.g. GET /, /users, /metric-test
+```
+
+## Stacks
+
+### Open Telemetry
+
+Used to collect and export our logs, traces and metrics.
+
+We integrate it with our NestJS app using many libs from `@opentelemetry`. You can check `app/src/tracer.ts` to check whick libs where used.
 
 - [Official NodeJS Docs](https://opentelemetry.io/docs/languages/js/getting-started/nodejs/)
 - [Docker image open-telemetry/opentelemetry-collector-contrib Github](https://github.com/open-telemetry/opentelemetry-collector-contrib)
 
-## LGTM Stack
+### Pino
+
+We used [Pino](https://github.com/pinojs/pino) to standardize our logs.
+
+### LGTM Stack
 
 - [Loki](https://grafana.com/oss/loki/): for Logs
 - [Grafana](https://grafana.com/oss/grafana/): to centralize, configure and visualize
 - [Tempo](https://grafana.com/oss/tempo/): for Traces
 - [Mimir](https://grafana.com/oss/mimir/): for Metrics
 
-## Minio
+### Minio
 
-Used to store our logs.
+Used to persist our logs.
 https://www.min.io/
 
 ## Concepts
