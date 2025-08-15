@@ -16,11 +16,14 @@ mkdir -p data/minio
 docker compose up --build -d
 
 # go to applications folders, install deps and run app
-cd app && nvm use && npm i && npm run start:dev
-cd app-2 && nvm use && npm i && npm run start:dev
+cd app && cp .env.example .env && nvm use && npm i && npm run start:dev
+cd app-2 && cp .env.example .env && nvm use && npm i && npm run start:dev
 
 # try fetching some endpoints to create logs, traces and metrics
 # e.g. GET /, /users, /metric-test
+
+# access grafana on http://localhost:3000
+# access minio on http://localhost:9001
 ```
 
 ## Stacks
