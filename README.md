@@ -23,6 +23,11 @@ https://www.min.io/
 
 ## Concepts
 
+## Team Metrics
+
+- MTTD: Mean Time To Detect
+- MTTR: Mean Time To Repair
+
 ### Golden Signals
 
 - Latency: ms
