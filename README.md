@@ -12,6 +12,9 @@ Simple apps using [NestJS](https://docs.nestjs.com/) to test custom logs, traces
 # create minio folder
 mkdir -p data/minio
 
+# copy .env.example to .env
+cp .env.example .env
+
 # run LGTM stack services
 docker compose up --build -d
 
