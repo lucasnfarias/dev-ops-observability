@@ -1,4 +1,4 @@
-# Dev Ops Observability
+# LGTM Observability
 
 Educational project to learn more about Observability using LGTM Stack.
 

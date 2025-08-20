@@ -1,4 +1,4 @@
-# Dev Ops Observability
+# Service Mesh
 
 Educational project to learn more about Service Mesh using Istio
 
