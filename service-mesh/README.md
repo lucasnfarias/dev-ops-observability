@@ -12,8 +12,39 @@ Simple apps using [NestJS](https://docs.nestjs.com/) to test service mesh.
 # create cluster based on YAML config file
 kind create cluster --config infra/kind.yaml
 
-# get nodes
-kubectl get nodes
+# install istio on the cluster (https://istio.io/latest/docs/setup/getting-started/#install)
+istioctl install
+
+# enter app folder
+cd app
+
+# build and pull app image (if you would like to change the app image)
+docker build -t app-service-mesh:v1 .
+docker tag app-service-mesh:v1 {DOCKER_HUB_USER}/app-service-mesh:v1
+docker login
+docker push {DOCKER_HUB_USER}/app-service-mesh:v1
+
+# create app namespace
+kubectl create ns app
+
+# create deployment
+kubectl apply -f k8s -n app
+```
+
+## Kubernetes commands
+
+```sh
+# delete cluster
+kind delete cluster --name cluster-service-mesh
+
+# check istio
+kubectl get pods -n istio-system
+
+# get app namespace pods
+kubectl get pods -n app
+
+# get pod logs
+kubectl logs {POD_NAME} -n app
 ```
 
 ## Stacks
