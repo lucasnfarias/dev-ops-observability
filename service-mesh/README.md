@@ -63,10 +63,20 @@ https://istio.io/latest/docs/overview/quickstart/
 
 #### Kiali
 
-Kiali is a console for Istio service mesh
+Kiali is a console for Istio service mesh.
 
 We used this config to setup it:
 https://github.com/istio/istio/blob/master/samples/addons/kiali.yaml
+
+#### Prometheus
+
+Responsible for collecting metrics.
+
+#### Jaeger
+
+Responsible for traces.
+
+https://github.com/istio/istio/blob/master/samples/addons/jaeger.yaml
 
 #### Envoy Proxy
 
