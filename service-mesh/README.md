@@ -9,42 +9,33 @@ Simple apps using [NestJS](https://docs.nestjs.com/) to test service mesh.
 ### How to run
 
 ```sh
-# create cluster based on YAML config file
-kind create cluster --config infra/kind.yaml
+# create cluster, install istio and run app deployment
+make start-cluster
 
-# install istio on the cluster (https://istio.io/latest/docs/setup/getting-started/#install)
-istioctl install
-
-# enter app folder
-cd app
-
-# build and pull app image (if you would like to change the app image)
-docker build -t app-service-mesh:v1 .
-docker tag app-service-mesh:v1 {DOCKER_HUB_USER}/app-service-mesh:v1
-docker login
-docker push {DOCKER_HUB_USER}/app-service-mesh:v1
-
-# create app namespace
-kubectl create ns app
-
-# create deployment
-kubectl apply -f k8s -n app
+# delete cluster
+make delete-cluster
 ```
 
 ## Kubernetes commands
 
 ```sh
-# delete cluster
-kind delete cluster --name cluster-service-mesh
-
 # check istio
 kubectl get pods -n istio-system
 
-# get app namespace pods
-kubectl get pods -n app
+# get all info from app namespace
+kubectl get all -n app
 
 # get pod logs
 kubectl logs {POD_NAME} -n app
+
+# delete resources
+kubectl delete -f k8s -n app
+
+# forward port from pod
+kubectl port-forward {POD_NAME} -n app 8080:3000
+
+# forward port for kiali
+kubectl port-forward service/kiali -n istio-system 4000:20001
 ```
 
 ## Stacks
@@ -69,6 +60,13 @@ https://istio.io/latest/docs/overview/quickstart/
 - There are many add-ons to add new functionalities
 - Layers: Control and Data Plane
 - Implementation can be multi cluster and/or multi-tenant inside the same cluster
+
+#### Kiali
+
+Kiali is a console for Istio service mesh
+
+We used this config to setup it:
+https://github.com/istio/istio/blob/master/samples/addons/kiali.yaml
 
 #### Envoy Proxy
 
