@@ -12,6 +12,9 @@ Simple apps using [NestJS](https://docs.nestjs.com/) to test service mesh.
 # create cluster, install istio and run app deployment
 make start-cluster
 
+# forward port for kiali and check it on http://localhost:4000
+kubectl port-forward service/kiali -n istio-system 4000:20001
+
 # delete cluster
 make delete-cluster
 ```
@@ -109,6 +112,17 @@ https://github.com/istio/istio/blob/master/samples/addons/jaeger.yaml
   - Sidecar concept doesn't exists, so there won't be a container running aside from service's instances (Pod will run only the app container)
   - Istio execution happens for each Node
   - Reduces your cluster's resource consumption (since you won't need a sidecar container running for each Pod)
+
+#### VirtualService
+
+- Manage Traffic config on infra layer instead of application layer
+  - Timeout, retry, request flow,...
+- A layer above kubernetes traffic layer
+
+#### DestinationRile
+
+- Define your subsets
+- What application will be the host that receives the requests
 
 ## Concepts
 

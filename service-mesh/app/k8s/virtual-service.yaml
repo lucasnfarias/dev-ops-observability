@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+
+metadata:
+  name: app-service-mesh-routes
+
+spec:
+  hosts:
+  - app-service-mesh-svc
+  http:
+    - route:
+      - destination:
+          host: app-service-mesh-svc
+          subset: V1
+        weight: 80
+      - destination:
+          host: app-service-mesh-svc
+          subset: V2
+        weight: 20
