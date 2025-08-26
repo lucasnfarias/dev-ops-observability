@@ -36,7 +36,7 @@ run-stress-test:
 	-kubectl run -it fortio -n ${NAMESPACE} \
 		--rm --image=fortio/fortio \
 		-- load -qps ${STRESS_TEST_QPS} -t ${STRESS_TEST_TIME} -c ${STRESS_TEST_THREADS} \
-		"http://app-service-mesh-svc/healthz"
+		"http://app-service-mesh-svc/teste"
 
 get-all-info:
 	kubectl get all --all-namespaces
