@@ -6,14 +6,14 @@ metadata:
 
 spec:
   hosts:
-  - app-service-mesh-svc
+  - app-service-mesh-svc.app.svc.cluster.local
   http:
     - route:
       - destination:
-          host: app-service-mesh-svc
+          host: app-service-mesh-svc.app.svc.cluster.local
           subset: V1
         weight: 80
       - destination:
-          host: app-service-mesh-svc
+          host: app-service-mesh-svc.app.svc.cluster.local
           subset: V2
         weight: 20

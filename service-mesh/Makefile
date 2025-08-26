@@ -27,7 +27,7 @@ delete-cluster:
 	kind delete cluster --name ${CLUSTER_NAME}
 
 build-push-docker-image:
-	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} .
+	docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} ./app
 	docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION} ${DOCKER_IMAGE_USER}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
 # docker login (if you're not logged in)
 	docker push ${DOCKER_IMAGE_USER}/${DOCKER_IMAGE_NAME}
@@ -36,7 +36,7 @@ run-stress-test:
 	-kubectl run -it fortio -n ${NAMESPACE} \
 		--rm --image=fortio/fortio \
 		-- load -qps ${STRESS_TEST_QPS} -t ${STRESS_TEST_TIME} -c ${STRESS_TEST_THREADS} \
-		"http://app-service-mesh-svc/example-k8s"
+		"http://app-service-mesh-svc/healthz"
 
 get-all-info:
 	kubectl get all --all-namespaces

@@ -5,11 +5,11 @@ metadata:
   name: app-service-mesh-dr
 
 spec:
-  host: app-service-mesh-svc
+  host: app-service-mesh-svc.app.svc.cluster.local
   subsets:
   - name: V1
     labels:
-      app: app-service-mesh
+      version: V1
   - name: V2
     labels:
-      app: app-service-mesh
+      version: V2
