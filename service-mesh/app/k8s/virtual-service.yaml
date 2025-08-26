@@ -8,23 +8,39 @@ spec:
   hosts:
   - app-service-mesh-svc.app.svc.cluster.local
   http:
-  - name: "app-service-mesh-v2"
-    match:
-    - uri:
-        prefix: "/teste"
-    - uri:
-        prefix: "/teste-2"
-    rewrite:
-      uri: "/healthz"
-    route:
-    - destination:
-        host: app-service-mesh-svc.app.svc.cluster.local
-        subset: V2
-  - name: "app-service-mesh-v1"
-    route:
-    - destination:
-        host: app-service-mesh-svc.app.svc.cluster.local
-        subset: V1
+    - fault:
+        # delay:
+        #   fixedDelay: 1s
+        #   percentage:
+        #     value: 5
+        abort:
+          httpStatus: 504
+          percentage:
+            value: 5
+      route:
+      - destination:
+          host: app-service-mesh-svc.app.svc.cluster.local
+          subset: V1
+  # ROUTING RULES EXAMPLE
+  # - name: "app-service-mesh-v2"
+  #   match:
+  #   - uri:
+  #       prefix: "/teste"
+  #   - uri:
+  #       prefix: "/teste-2"
+  #   rewrite:
+  #     uri: "/healthz"
+  #   route:
+  #   - destination:
+  #       host: app-service-mesh-svc.app.svc.cluster.local
+  #       subset: V2
+  # - name: "app-service-mesh-v1"
+  #   route:
+  #   - destination:
+  #       host: app-service-mesh-svc.app.svc.cluster.local
+  #       subset: V1
+
+  # CANARY/SPLIT EXAMPLE
     # - route:
     #   - destination:
     #       host: app-service-mesh-svc.app.svc.cluster.local

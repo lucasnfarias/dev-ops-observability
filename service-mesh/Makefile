@@ -5,9 +5,9 @@ DOCKER_IMAGE_USER ?= lucasnfarias
 DOCKER_IMAGE_NAME ?= app-service-mesh
 DOCKER_IMAGE_VERSION ?= v1
 
-STRESS_TEST_QPS ?= 6000
-STRESS_TEST_TIME ?= 60s
-STRESS_TEST_THREADS ?= 35
+STRESS_TEST_QPS ?= 500
+STRESS_TEST_TIME ?= 10s
+STRESS_TEST_THREADS ?= 10
 
 start-cluster:
 	kind create cluster --config infra/kind.yaml
@@ -36,7 +36,7 @@ run-stress-test:
 	-kubectl run -it fortio -n ${NAMESPACE} \
 		--rm --image=fortio/fortio \
 		-- load -qps ${STRESS_TEST_QPS} -t ${STRESS_TEST_TIME} -c ${STRESS_TEST_THREADS} \
-		"http://app-service-mesh-svc/teste"
+		"http://app-service-mesh-svc/healthz"
 
 get-all-info:
 	kubectl get all --all-namespaces
