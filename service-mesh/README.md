@@ -152,4 +152,9 @@ https://github.com/istio/istio/blob/master/samples/addons/jaeger.yaml
   - In standard TLS, the server presents a certificate to the client to prove its identity. The client then verifies this certificate against a trusted Certificate Authority (CA).
 - mTLS takes this a step further by requiring the client to also present a certificate to the server, which the server then verifies.
 
+### Circuit Breaker
+
+- Design patter to protect your system
+- Avoid some application blocking others
+
 ## Troubleshooting
