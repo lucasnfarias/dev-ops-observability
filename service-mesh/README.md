@@ -157,4 +157,11 @@ https://github.com/istio/istio/blob/master/samples/addons/jaeger.yaml
 - Design patter to protect your system
 - Avoid some application blocking others
 
+### Canary Deployment
+
+- Gradual transition between app versions
+- Sticky sessions to maintain user accessing the same version while it's receiving traffic
+- Istio can do it, but it is not the go-to
+- Tools specific for this: Argo, Rollouts, Flagger
+
 ## Troubleshooting
