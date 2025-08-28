@@ -8,20 +8,21 @@ DOCKER_IMAGE_VERSION ?= v1
 STRESS_TEST_QPS ?= 500
 STRESS_TEST_TIME ?= 10s
 STRESS_TEST_THREADS ?= 10
-STRESS_TEST_QUERY ?= ""
+STRESS_TEST_QUERY ?= 
 
 start-cluster:
 	kind create cluster --config infra/kind.yaml
 	kubectl cluster-info --context kind-${CLUSTER_NAME}
-	kubectl create namespace ${NAMESPACE}
 # install istio on the cluster (https://istio.io/latest/docs/setup/getting-started/#install)
-	istioctl install
-	kubectl label namespace app istio-injection=enabled --overwrite
+	istioctl install --set profile=ambient
+	kubectl create namespace ${NAMESPACE}
+# 	kubectl label namespace app istio-injection=enabled --overwrite (for sidecar mode)
+	kubectl label namespace app istio.io/dataplane-mode=ambient
 	kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0" | kubectl apply -f -; }
 	kubectl apply -f app/k8s -n ${NAMESPACE}
-	kubectl apply -f infra/kiali.yaml
 	kubectl apply -f infra/prometheus.yaml
 	kubectl apply -f infra/jaeger.yaml
+	kubectl apply -f infra/kiali.yaml
 
 
 delete-cluster:

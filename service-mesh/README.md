@@ -124,6 +124,12 @@ https://github.com/istio/istio/blob/master/samples/addons/jaeger.yaml
 - Define your subsets
 - What application will be the host that receives the requests
 
+#### Ambiente Mode
+
+- `--set profile=ambient`
+- Without sidecar
+- More efficient
+
 ## Concepts
 
 ### Service Mesh
