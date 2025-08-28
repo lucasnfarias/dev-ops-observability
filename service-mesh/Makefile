@@ -8,6 +8,7 @@ DOCKER_IMAGE_VERSION ?= v1
 STRESS_TEST_QPS ?= 500
 STRESS_TEST_TIME ?= 10s
 STRESS_TEST_THREADS ?= 10
+STRESS_TEST_HOST ?= app-service-mesh-svc
 STRESS_TEST_QUERY ?= 
 
 start-cluster:
@@ -15,15 +16,14 @@ start-cluster:
 	kubectl cluster-info --context kind-${CLUSTER_NAME}
 # install istio on the cluster (https://istio.io/latest/docs/setup/getting-started/#install)
 	istioctl install --set profile=ambient
-	kubectl create namespace ${NAMESPACE}
+	{ kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0" | kubectl apply -f -; }
 # 	kubectl label namespace app istio-injection=enabled --overwrite (for sidecar mode)
-	kubectl label namespace app istio.io/dataplane-mode=ambient
-	kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.3.0" | kubectl apply -f -; }
+	kubectl apply -f infra/app-ns.yaml
+	kubectl apply -f infra/gateway.yaml
 	kubectl apply -f app/k8s -n ${NAMESPACE}
 	kubectl apply -f infra/prometheus.yaml
 	kubectl apply -f infra/jaeger.yaml
 	kubectl apply -f infra/kiali.yaml
-
 
 delete-cluster:
 	kind delete cluster --name ${CLUSTER_NAME}
@@ -38,7 +38,7 @@ run-stress-test:
 	-kubectl run -it fortio -n ${NAMESPACE} \
 		--rm --image=fortio/fortio \
 		-- load -qps ${STRESS_TEST_QPS} -t ${STRESS_TEST_TIME} -c ${STRESS_TEST_THREADS} \
-		"http://app-service-mesh-svc/healthz${STRESS_TEST_QUERY}"
+		"http://${STRESS_TEST_HOST}/healthz${STRESS_TEST_QUERY}"
 
 get-all-info:
 	kubectl get all --all-namespaces

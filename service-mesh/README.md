@@ -39,6 +39,9 @@ kubectl port-forward {POD_NAME} -n app 8080:3000
 
 # forward port for kiali
 kubectl port-forward service/kiali -n istio-system 4000:20001
+
+# get current namespace config
+kubectl get ns app -o yaml
 ```
 
 ## Stacks
