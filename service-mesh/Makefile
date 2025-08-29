@@ -24,6 +24,7 @@ start-cluster:
 	kubectl apply -f infra/prometheus.yaml
 	kubectl apply -f infra/jaeger.yaml
 	kubectl apply -f infra/kiali.yaml
+	kubectl apply -f infra/mtls.yaml
 
 delete-cluster:
 	kind delete cluster --name ${CLUSTER_NAME}
